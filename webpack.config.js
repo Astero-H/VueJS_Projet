@@ -6,10 +6,10 @@ var webpack = require('webpack')
 
 module.exports = {
   mode: 'development',
-  entry: './src/main.js',
+  entry: './src/vue/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './src/dist'),
+    publicPath: '/src/dist/',
     filename: 'build.js'
   },
   module: {
@@ -41,7 +41,8 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      
     ]
   },
   resolve: {
