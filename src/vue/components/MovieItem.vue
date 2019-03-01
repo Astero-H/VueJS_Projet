@@ -30,7 +30,7 @@ export default {
   },
 
   methods: {
-    newmovie1: () => {
+/*     newmovie1: () => {
       this.movies.push({ title: "New movie" });
     },
     newmovie2: () => {
@@ -46,7 +46,7 @@ export default {
     },
     remove: () => {
       this.movies.splice(index, 1);
-    }
+    } */
   },
 
   components: {

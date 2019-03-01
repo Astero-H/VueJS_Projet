@@ -2,10 +2,11 @@
   <div class="container">
     <h1 class="display-4">Liste des films</h1>
     <hr>
-    {{state}}
+
+    
     <!-- Affichage des films  -->
     <div class="row-mt4">
-      <div class="col-lg-4 col-md-6 mb-4" v-for=" movie in movies" v-bind:key="movie.title">
+      <div class="col-lg-4 col-md-6 mb-4" v-for="(movie) in getMovies" v-bind:key="movie.title">
         <movie-item v-bind:movie="movie"></movie-item>
       </div>
     </div>
@@ -50,16 +51,10 @@
 
 <script>
 import MovieItem from "./MovieItem";
-import MovieDetails from "./MovieDetails";
 import axios from "axios";
 
 export default {
-  name: "Home",
-
-  components: {
-    MovieItem,
-    MovieDetails
-  },
+  components: { MovieItem },
 
   data() {
     return {
@@ -70,7 +65,7 @@ export default {
   },
 
   methods: {
-    newmovie1: () => {
+/*     newmovie1: () => {
       this.movies.push({ title: "New movie" });
     },
     newmovie2: () => {
@@ -86,17 +81,18 @@ export default {
     },
     remove: index => {
       this.movies.splice(index, 1);
-    }
-  },
-
-  created() {
-    axios
-      .get("http://localhost:3000/movies")
-      .then(res => (this.movies = res.data))
-      .catch(err => console.log(err));
+    } */
   },
 
   computed: {
+    getMovies() {
+      return this.$store.state.movies;
+    },
+
+    getMovie() {
+      return this.$store.state.movie;
+    },
+
     firstletter: () => {
       return this.message[0];
     },

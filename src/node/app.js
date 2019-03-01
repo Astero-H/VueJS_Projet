@@ -54,7 +54,8 @@ app.get("/movies", function(req, res, next) {
 });
 
 app.get("/movies/:id", function(req, res, next) {
-  res.json(baseMovies[req.params.id - 1]);
+  res.json(baseMovies[req.params.id-1]);
+  next()
 });
 
 //poster

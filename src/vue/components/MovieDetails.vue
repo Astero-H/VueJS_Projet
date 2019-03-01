@@ -1,11 +1,28 @@
 <template>
   <div>
-    <h1>Détails du film</h1>
-    {{$route.params.id}}
-    {{movies}}
+    <br>
+    <div class="row">
+      <div class="col-md-4 offset-md-1">
+        <img class="img-fluid" :src="movie.cover" alt="Responsive image" height="420">
+      </div>
 
-        <!-- Edition de film  -->
-   <!--  <p v-if="movie_to_edit">
+      <div class="col-md-7">
+        <div class="card w-75">
+          <div class="card-body">
+            <h5 class="card-title">{{movie.title}}</h5>
+            <p class="card-text">Année de production : {{movie.year}}</p>
+            <button class="btn btn-primary" @click="edit">Modifier</button>
+            <button class="btn btn-info" @click="remove">Supprimer</button>
+          </div>
+          <div class="col-md-4 offset-md-4">
+            <router-link :to="{name :'home'}" class="btn btn-info" tag="button">Page précédente</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edition de film  -->
+    <!--  <p v-if="movie_to_edit">
       New movie
       <br>Title :
       <input type="text" v-model="movie_to_edit.title">
@@ -22,38 +39,43 @@
 
 
 <script>
-import axios from "axios";
-
 export default {
-
-  props:{
-    movies: Object
-  },
-
-   computed: {
-    /* movie() {
-      return this.$store.state.movie;
-    } */
-   },
+  name: "Details",
+  components: {},
 
   data() {
-    return {}
+    return {
+      movie_to_edit: {}
+    };
   },
 
-  components:{},
-  
-   created() {
-    axios
-      .get("http://localhost:3000/movies/${id}")
-      .then(res => (this.movie_to_edit = res.data))
-      .catch(err => console.log(err));
+  computed: {
+    movie() {
+      return this.$store.state.movie;
+    },
+
+    getMovie() {
+      return this.$store.dispatch("getMovie", this.$route.params.id);
+    }
+  },
+
+  created() {
+    this.getMovie;
+  },
+
+  watch: {
+    $route: "getMovie"
   },
 
   methods: {
-    edit: function(movie) {
+    edit(movie) {
       this.movie_to_edit = movie;
-    }
+    },
+
+    remove() {},
+
+    back() {}
   }
-}
+};
 </script>
 

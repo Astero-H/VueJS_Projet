@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Vuex from 'vuex'
 import App from "./App.vue";
 import VueRouter from "vue-router";
 
@@ -10,7 +11,8 @@ import MovieDetails from "./components/MovieDetails.vue";
 
 const axios = require("axios");
 
-Vue.use(VueRouter);
+Vue.use(VueRouter); Vue.use(Vuex)
+Vue.use(Vuex)
 
 const routes = [
   {
@@ -27,33 +29,54 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  //mode : 'history',
   routes
 });
 
-class MoviesStore {
-  constructor() {
-    this.movies = [];
-  }
 
-  getMovies() {
-    return axios
-      .get("http://localhost:3000/movies")
-      .then(res => (this.movies = res.data))
-      .catch(err => console.log(err));
-  }
-}
-
-let movies_store = new MoviesStore();
-
-new Vue({
-  el: "#app",
-  data: function() {
-    return {
-      state: movies_store.state
-    };
+const store = new Vuex.Store({
+  state: {
+    movies: {},
+    movie: null
   },
 
-  components: { Home, MovieDetails },
+  mutations: {
+    updateMovies(state, movies) {
+      state.movies = movies          //.catch(err => console.log(err))
+    },
+
+    updateMovie(state, movie) {
+      state.movie = movie        //.catch(err => console.log(err))
+    }
+  },
+
+  actions: {
+    getMovies(context) {
+      axios.get('/movies').then(function (response) {
+       context.commit('updateMovies', response.data);
+      })
+    },
+
+    getMovie(context,id) {
+      axios.get(`/movies/${id}`).then(function (response) {
+        context.commit('updateMovie', response.data);
+      })
+    },
+  }
+})
+
+
+
+new Vue({ 
+  el: "#app",
   router,
+  store,
+  mounted() {
+    this.$store.dispatch('getMovies');
+    this.$store.dispatch('getMovie', parseInt(this.$route.params.id))
+  },
   render: h => h(App)
 });
+
+
+
