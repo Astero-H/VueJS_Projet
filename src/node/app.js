@@ -58,6 +58,19 @@ app.get("/movies/:id", function(req, res, next) {
   next()
 });
 
+// app.post("/movies/:id", function(req, res, next) {
+//  let movie = res.json(baseMovies[req.params.id])
+//   //console.log(movie)
+//   next()
+// });
+
+
+app.delete("/movies/:id/delete", function(req,res,next){
+// baseMovies.splice(req.params.id-1,1)
+res.json(baseMovies[req.params.id-1]);
+ console.log(req.body.data)
+});
+
 //poster
 app.post("/", upload.single("avatar"), function(req, res, next) {
   console.log(req.body, req.file);

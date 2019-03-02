@@ -24,7 +24,6 @@ export default {
 
   data() {
     return {
-      movie_to_edit: null,
       movie_to_add: {}
     };
   },

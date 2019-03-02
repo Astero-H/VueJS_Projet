@@ -73,12 +73,7 @@ export default {
       this.movie_to_add = {};
     },
 
-    edit: movie => {
-      this.movie_to_edit = movie;
-    },
-    save: () => {
-      this.movie_to_edit = null;
-    },
+   
     remove: index => {
       this.movies.splice(index, 1);
     } */

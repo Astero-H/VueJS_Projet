@@ -11,7 +11,10 @@
           <div class="card-body">
             <h5 class="card-title">{{movie.title}}</h5>
             <p class="card-text">Année de production : {{movie.year}}</p>
-            <button class="btn btn-primary" @click="edit">Modifier</button>
+
+             <router-link :to="{name :'edit'}" class="btn btn-info" tag="button">Modifier</router-link>
+
+            <!-- <button class="btn btn-primary" @click="edit">Modifier</button> -->
             <button class="btn btn-info" @click="remove">Supprimer</button>
           </div>
           <div class="col-md-4 offset-md-4">
@@ -22,7 +25,7 @@
     </div>
 
     <!-- Edition de film  -->
-    <!--  <p v-if="movie_to_edit">
+      <p v-if="movie_to_edit">
       New movie
       <br>Title :
       <input type="text" v-model="movie_to_edit.title">
@@ -32,7 +35,7 @@
       <textarea v-model="movie_to_edit.synopsys"></textarea>
       <br>
       <button v-on:click="save">Save</button>
-    </p>-->
+    </p>
     <!-- Edition de film  -->
   </div>
 </template>
@@ -45,7 +48,7 @@ export default {
 
   data() {
     return {
-      movie_to_edit: {}
+      movie_to_edit: null
     };
   },
 
@@ -69,7 +72,13 @@ export default {
 
   methods: {
     edit(movie) {
-      this.movie_to_edit = movie;
+      console.log("click effectué")
+      this.movie_to_edit = this.$store.state.movie
+    },   
+
+    save(){
+      this.movie_to_edit = null
+      console.log(this.$store.state.movie)
     },
 
     remove() {},
