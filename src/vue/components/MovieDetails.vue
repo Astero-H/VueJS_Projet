@@ -12,10 +12,10 @@
             <h5 class="card-title">{{movie.title}}</h5>
             <p class="card-text">Année de production : {{movie.year}}</p>
 
-             <router-link :to="{name :'edit'}" class="btn btn-info" tag="button">Modifier</router-link>
+            <router-link :to="{name :'edit'}" class="btn btn-info" tag="button">Modifier</router-link>
 
             <!-- <button class="btn btn-primary" @click="edit">Modifier</button> -->
-            <button class="btn btn-info" @click="remove">Supprimer</button>
+            <button class="btn btn-info" @click="remove(movie)">Supprimer</button>
           </div>
           <div class="col-md-4 offset-md-4">
             <router-link :to="{name :'home'}" class="btn btn-info" tag="button">Page précédente</router-link>
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Edition de film  -->
-      <p v-if="movie_to_edit">
+    <p v-if="movie_to_edit">
       New movie
       <br>Title :
       <input type="text" v-model="movie_to_edit.title">
@@ -43,9 +43,6 @@
 
 <script>
 export default {
-  name: "Details",
-  components: {},
-
   data() {
     return {
       movie_to_edit: null
@@ -59,6 +56,10 @@ export default {
 
     getMovie() {
       return this.$store.dispatch("getMovie", this.$route.params.id);
+    },
+
+    remove(movie) {
+      return this.$store.dispatch("deleteMovie", this.$route.params.id);
     }
   },
 
@@ -72,18 +73,13 @@ export default {
 
   methods: {
     edit(movie) {
-      console.log("click effectué")
-      this.movie_to_edit = this.$store.state.movie
-    },   
-
-    save(){
-      this.movie_to_edit = null
-      console.log(this.$store.state.movie)
+      this.movie_to_edit = this.$store.state.movie;
     },
 
-    remove() {},
-
-    back() {}
+    save() {
+      this.movie_to_edit = null;
+      console.log(this.$store.state.movie);
+    }
   }
 };
 </script>

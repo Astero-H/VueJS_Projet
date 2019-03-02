@@ -35,43 +35,37 @@ global.baseMovies = [
 ];
 
 var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./src/static/img/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, +Date.now() + "-" + file.originalname);
   }
 });
 
 var upload = multer({ storage });
 
-app.get("/", function(req, res, next) {
+app.get("/", function (req, res, next) {
   res.sendFile(path.resolve("src/index.html"));
 });
 
-app.get("/movies", function(req, res, next) {
+app.get("/api/movies", function (req, res, next) {
   res.json(baseMovies);
 });
 
-app.get("/movies/:id", function(req, res, next) {
-  res.json(baseMovies[req.params.id-1]);
+app.get("/api/movies/:id", function (req, res, next) {
+  res.json(baseMovies[req.params.id - 1]);
   next()
 });
 
-// app.post("/movies/:id", function(req, res, next) {
-//  let movie = res.json(baseMovies[req.params.id])
-//   //console.log(movie)
-//   next()
-// });
 
-
-app.delete("/movies/:id/delete", function(req,res,next){
-// baseMovies.splice(req.params.id-1,1)
-res.json(baseMovies[req.params.id-1]);
- console.log(req.body.data)
+app.post("/api/delete/:id", function (req, res, next) {
+  baseMovies.splice(req.params.id - 1, 1)
+  res.send(baseMovies)
+  console.log(`Id du film supprimé : ${req.params.id - 1}`)
 });
 
 //poster
-app.post("/", upload.single("avatar"), function(req, res, next) {
+app.post("/", upload.single("avatar"), function (req, res, next) {
   console.log(req.body, req.file);
 });

@@ -17,8 +17,6 @@
 
 
 <script>
-import MovieEdit from "./MovieDetails";
-
 export default {
   props: ["movie"],
 
@@ -26,30 +24,6 @@ export default {
     return {
       movie_to_add: {}
     };
-  },
-
-  methods: {
-/*     newmovie1: () => {
-      this.movies.push({ title: "New movie" });
-    },
-    newmovie2: () => {
-      this.movies.push(this.movie_to_add);
-      this.movie_to_add = {};
-    },
-
-    edit: movie => {
-      this.movie_to_edit = movie;
-    },
-    save: () => {
-      this.movie_to_edit = null;
-    },
-    remove: () => {
-      this.movies.splice(index, 1);
-    } */
-  },
-
-  components: {
-    MovieEdit
   }
 };
 </script>
