@@ -1,6 +1,5 @@
 <template>
   <div>Edition de film
-    <!-- Edition de film  -->
     <p v-if="movie_to_edit">
       New movie
       <br>Title :
@@ -10,13 +9,7 @@
       <br>
       <button v-on:click="save">Save</button>
     </p>
-    <!-- Edition de film  -->
-
-
-  {
-  <movie-details v-bind:movie="movie"></movie-details>
-
-
+    <movie-details v-bind:movie="movie"></movie-details>
   </div>
 </template>
 
@@ -25,18 +18,13 @@
 import MovieDetails from "./MovieDetails";
 
 export default {
-components: { MovieDetails },
+  components: { MovieDetails },
 
-data(){
-  return{
-    movie_to_edit: {}
-  }
-},
-
-computed: {
-},
-
-
+  data() {
+    return {
+      movie_to_edit: {}
+    };
+  },
 
 };
 </script>
