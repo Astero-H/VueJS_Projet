@@ -1,40 +1,72 @@
 var express = require("express");
 var path = require("path");
-var bodyParser = require("body-parser");
-var multer = require("multer");
+var parser = require("body-parser");
 var port = process.env.PORT || 3000;
-var axios = require("axios");
 
 var app = express();
 app.use(express.static(path.resolve("src/dist")));
 app.use(express.static(path.resolve("src/static")));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.listen(port);
-console.log("Listening on port " + port);
+app.use(parser.json());
+app.use(parser.urlencoded({ extended: true }));
 
-global.baseMovies = [
+var api = require("./routes.js");
+app.use("/api", api);
+
+global.tabMovies = [
   {
-    id: 1,
+    id: 0,
     title: "Green Book",
     year: 2019,
+    real: {
+      name: "Peter Farrelly",
+      nationality: "américaine",
+      birth: "17/12/156"
+    },
+    genre: "Drame/Biopic",
     cover: "img/green-book.jpg"
   },
   {
-    id: 2,
+    id: 1,
     title: "Forrest Gump",
-    year: 2014,
+    year: 1994,
+    real: {
+      name: "Robert Zemeckis",
+      nationality: "américaine",
+      birth: "14/05/1952"
+    },
+    genre: "Comédie Dramatique",
     cover: "img/forrest.jpg"
   },
   {
-    id: 3,
+    id: 2,
     title: "Un prophète",
-    year: 2014,
+    year: 2008,
+    real: {
+      name: "Jacques Audiard",
+      nationality: "française",
+      birth: "30/04/1952"
+    },
+    genre: "Policier/Drame",
     cover: "img/prophete.jpg"
   }
 ];
 
-var storage = multer.diskStorage({
+/* app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Accept, Origin, Content-Type');
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
+ */
+app.get("/", function (req, res) {
+  res.sendFile(path.resolve("src/index.html"));
+});
+
+app.listen(port);
+console.log("Listening on port " + port);
+
+/* var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./src/static/img/");
   },
@@ -43,29 +75,9 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage });
-
-app.get("/", function (req, res, next) {
-  res.sendFile(path.resolve("src/index.html"));
-});
-
-app.get("/api/movies", function (req, res, next) {
-  res.json(baseMovies);
-});
-
-app.get("/api/movies/:id", function (req, res, next) {
-  res.json(baseMovies[req.params.id - 1]);
-  next()
-});
-
-
-app.post("/api/delete/:id", function (req, res, next) {
-  baseMovies.splice(req.params.id - 1, 1)
-  res.send(baseMovies)
-  console.log(`Id du film supprimé : ${req.params.id - 1}`)
-});
+var upload = multer({ storage }); */
 
 //poster
-app.post("/", upload.single("avatar"), function (req, res, next) {
+/* app.post("/", upload.single("avatar"), function (req, res, next) {
   console.log(req.body, req.file);
-});
+}); */

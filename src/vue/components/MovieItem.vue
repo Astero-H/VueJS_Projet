@@ -1,8 +1,9 @@
 <template>
-  <div class="card" style="width: 15rem;">
+  <div class="card" style="width: 16rem;">
     <img :src="movie.cover" class="rounded card-img-top" alt="Card image cap" height="320">
     <div class="card-body">
       <p class="card-text">Titre : {{movie.title}}</p>
+      <p class="card-text">Genre : {{movie.genre}}</p>
       <p class="card-text">Année : {{movie.year}}</p>
     </div>
 
@@ -11,7 +12,6 @@
       class="btn btn-info"
       tag="button"
     >Consulter</router-link>
-    <!-- <button  @click="remove">Remove</button> -->
   </div>
 </template>
 

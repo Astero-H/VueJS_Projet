@@ -6,26 +6,35 @@
         <img class="img-fluid" :src="movie.cover" alt="Responsive image" height="420">
       </div>
 
-      <div class="col-md-7">
+      <div class="col-md-5">
         <div class="card w-75">
           <div class="card-body">
-            <h5 class="card-title">{{movie.title}}</h5>
-            <p class="card-text">Année de production : {{movie.year}}</p>
+            <h2 class="card-title">{{movie.title}} ({{movie.year}})</h2>
+            <p> Genre: <i>{{movie.genre}} </i></p>
+
+            <h4> Réalisateur </h4>
+            <ul>
+              <li> {{ movie.real.name }} </li>
+              <li> Nationalité {{ movie.real.nationality }} </li>
+              <li> Né le {{ movie.real.birth }} </li>          
+            </ul>
 
             <router-link :to="{name :'edit'}" class="btn btn-info" tag="button">Modifier</router-link>
 
             <!-- <button class="btn btn-primary" @click="edit">Modifier</button> -->
-            <button class="btn btn-info" @click="remove(movie)">Supprimer</button>
-          </div>
-          <div class="col-md-4 offset-md-4">
-            <router-link :to="{name :'home'}" class="btn btn-info" tag="button">Page précédente</router-link>
-          </div>
+            <button class="btn btn-danger" @click="deleteMovie()">Supprimer</button>
+          </div>    
         </div>
       </div>
+      <br>
+      <div class="col-md-4 offset-md-1">
+              <router-link :to="{name :'home'}" class="btn btn-info" tag="button">Page précédente</router-link>
+      </div>
+
     </div>
 
     <!-- Edition de film  -->
-    <p v-if="movie_to_edit">
+    <!--     <p v-if="movie_to_edit">
       New movie
       <br>Title :
       <input type="text" v-model="movie_to_edit.title">
@@ -35,7 +44,7 @@
       <textarea v-model="movie_to_edit.synopsys"></textarea>
       <br>
       <button v-on:click="save">Save</button>
-    </p>
+    </p>-->
     <!-- Edition de film  -->
   </div>
 </template>
@@ -43,43 +52,33 @@
 
 <script>
 export default {
-  data() {
-    return {
-      movie_to_edit: null
-    };
-  },
 
   computed: {
     movie() {
       return this.$store.state.movie;
-    },
-
-    getMovie() {
-      return this.$store.dispatch("getMovie", this.$route.params.id);
-    },
-
-    remove(movie) {
-      return this.$store.dispatch("deleteMovie", this.$route.params.id);
     }
   },
 
   created() {
-    this.getMovie;
+    this.fetchMovie();
   },
 
   watch: {
-    $route: "getMovie"
+    $route: "fetchMovie"
   },
 
   methods: {
-    edit(movie) {
-      this.movie_to_edit = this.$store.state.movie;
+    fetchMovie() {
+      this.$store.dispatch("getMovie", this.$route.params.id);
     },
 
-    save() {
-      this.movie_to_edit = null;
-      console.log(this.$store.state.movie);
+    deleteMovie() {
+      if (confirm("Voulez-vous vraiment supprimer ce film ?")) {
+         this.$store.dispatch("deleteMovie", this.movie.id).then(() => {
+        this.$router.push({name: "home" });
+      })
     }
+  }
   }
 };
 </script>
