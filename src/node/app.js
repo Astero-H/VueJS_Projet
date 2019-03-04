@@ -1,6 +1,15 @@
 var express = require('express');
+var app = express();
+
+var api = require('./routes.js');
+app.use('/api', api);
+
 var bodyParser = require('body-parser');
 var path = require('path');
+
+app.use(express.static(path.resolve('src/dist')));
+app.use(express.static(path.resolve('src/static')));
+
 var port = process.env.PORT || 3000;
 
 global.tabMovies = [
@@ -12,7 +21,7 @@ global.tabMovies = [
 		real: {
 			name: 'Peter Farrelly',
 			nationality: 'américaine',
-			birth: '17/12/156',
+			birth: '17/12/1956',
 		},
 		genre: 'Drame/Biopic',
 		cover: 'img/green-book.jpg',
@@ -45,19 +54,21 @@ global.tabMovies = [
 	},
 ];
 
-var app = express();
-app.use(express.static(path.resolve('src/dist')));
-app.use(express.static(path.resolve('src/static')));
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	res.setHeader('Access-Control-Allow-Headers', 'Accept, Origin, Content-Type');
+	res.setHeader('Content-Type', 'application/json');
 
-var api = require('./routes.js');
-app.use('/api', api);
+	next();
+});
 
 app.get('/', function(req, res) {
 	res.sendFile(path.resolve('src/index.html'));
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(port);
 console.log('Listening on port ' + port);

@@ -1,21 +1,20 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <main class="container">
+      <router-view/>
+    </main>
   </div>
 </template>
 
 <script>
-export default {
-  data(){
-    return {}
-  }
-}
+    export default {
+    }
 </script>
 
 
 <style>
-h1 {
-  text-align: center;
-}
+  h1 {
+    text-align: center;
+  }
 </style>
 
